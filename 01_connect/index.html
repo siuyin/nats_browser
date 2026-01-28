@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  </head>
+  <body>
+    <script type="module">
+      import { wsconnect } from "https://esm.run/@nats-io/nats-core";
+      const nc = await wsconnect({servers: "wss://rasp.beyondbroadcast.com:44443", token:"YOUR_TOKEN_HERE"});
+      console.log(`connected: ${nc.getServer()}`);
+      await nc.close();
+    </script>
+  </body>
+</html>
