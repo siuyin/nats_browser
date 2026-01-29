@@ -16,7 +16,7 @@ func main() {
 	setupNATSConnection()
 	defer nc.Close()
 
-	http.Handle("/", http.FileServer(http.FS(public.Content)))
+	http.Handle("/", http.FileServerFS(public.Content))
 	http.HandleFunc("/connect", connectToNATS)
 
 	port := dflt.EnvString("PORT", "8080")
