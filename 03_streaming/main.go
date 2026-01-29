@@ -49,12 +49,12 @@ func sendEventsToNATS(w http.ResponseWriter, r *http.Request) {
 	if err := datastar.ReadSignals(r, sig); err != nil {
 		log.Println("sendEvents:", err)
 		sse := datastar.NewSSE(w, r)
-		sse.PatchElements(fmt.Sprintf(`<p id="received">Error: %v</p>`, err))
+		sse.PatchElementf(`<p id="received">Error: %v</p>`, err)
 		return
 	}
 
 	sse := datastar.NewSSE(w, r)
-	sse.PatchElements(fmt.Sprintf(`<p id="received">sent %d events.</p>`, sig.NumEvents))
+	sse.PatchElementf(`<p id="received">sent %d events.</p>`, sig.NumEvents)
 
 	sub, err := nc.Subscribe("publishdemo", func(m *nats.Msg) {
 		s := fmt.Sprintf("<p>event: %s, displayed: %s</p>\n", string(m.Data), time.Now().Format("15:04:05.000000"))
@@ -65,7 +65,7 @@ func sendEventsToNATS(w http.ResponseWriter, r *http.Request) {
 	})
 	if err != nil {
 		log.Println("subscribe", err)
-		sse.PatchElements(fmt.Sprintf(`<p id="received">%v</p>`, err))
+		sse.PatchElementf(`<p id="received">%v</p>`, err)
 		return
 	}
 	defer func() { // wait for the drain to complete
