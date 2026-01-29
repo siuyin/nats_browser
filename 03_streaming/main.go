@@ -68,20 +68,19 @@ func sendEventsToNATS(w http.ResponseWriter, r *http.Request) {
 		sse.PatchElements(fmt.Sprintf(`<p id="received">%v</p>`, err))
 		return
 	}
+	defer func() { // wait for the drain to complete
+		for {
+			if !sub.IsDraining() {
+				break
+			}
+			time.Sleep(time.Millisecond)
+		}
+	}()
+	defer sub.Drain()
 
 	for i := 0; i < sig.NumEvents; i++ {
 		nc.Publish("publishdemo", []byte(fmt.Sprintf(`%d: %s`, i+1, time.Now().Format("2006-01-02 15:04:05.000000 -0700"))))
-
 	}
-
-	sub.Drain()
-	for {
-		if !sub.IsDraining() {
-			break
-		}
-		time.Sleep(time.Millisecond)
-	}
-
 }
 
 func clearReceivedArea(w http.ResponseWriter, r *http.Request) {
