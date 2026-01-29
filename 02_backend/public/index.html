@@ -5,15 +5,18 @@
       body { font-family: sans-serif; }
     </style>
   </head>
+
   <body>
     <h1>Hello from public.Content</h1>
     <p>Use developer tools to view console log of connection attempt.</p>
+
     <script type="module">
       async function connectToNATS() {
         let resp = await fetch("./connect");
         let dat = await resp.text();
         console.log(dat);
       }
+
       connectToNATS();
     </script>
   </body>
