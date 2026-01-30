@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script type="module" src="https://cdn.jsdelivr.net/gh/starfederation/datastar@1.0.0-RC.7/bundles/datastar.js"></script>
+    <style>
+      body { font-family: sans-serif; }
+      .flex-container { display: flex; column-gap: 8px; }
+    </style>
+  </head>
+
+  <body>
+    <h1>Streaming with an embedded NATS server</h1>
+    <p>Using the data-star library for streaming / server sent events.
+    See <a href="https://data-star.dev/">data-star.dev</a>.</p>
+
+    <h2>Publishing Events</h2>
+    <div class="flex-container">
+      <div>Publish</div>
+      <div><input type="number" value="10" data-bind:numevents /> events</div>
+      <div><button data-on:click="@post('./send')">Send</button></div>
+      <div><button data-on:click="@post('./clear')">Clear</button></div>
+    </div>
+
+    <p id="received">
+      Watch this space ...
+    </p>
+  </body>
+</html>
